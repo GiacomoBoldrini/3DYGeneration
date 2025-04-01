@@ -1,0 +1,14 @@
+Universe = vanilla 
+Executable = wrapper.sh
+arguments = $(Step)
+use_x509userproxy = true
+MY.WantOS = "el7"
+ +JobFlavour = "nextweek"
+should_transfer_files = YES
+Error = log/$(proc).err_$(Step)
+Output = log/$(proc).out_$(Step)
+Log = log/$(proc).log_$(Step)
+transfer_input_files = SMP-RunIISummer20UL17wmLHEGEN-00065_1_cfg.py, SMP-RunIISummer20UL17SIM-00030_1_cfg.py, SMP-RunIISummer20UL17DIGIPremix-00030_1_cfg.py, SMP-RunIISummer20UL17HLT-00029_1_cfg.py, SMP-RunIISummer20UL17RECO-00029_1_cfg.py, SMP-RunIISummer20UL17MiniAODv2-00180_1_cfg.py, SMP-RunIISummer20UL17NanoAODv9-00124_1_cfg.py, CMSSW_10_6_26.tgz, CMSSW_10_6_20.tgz, CMSSW_10_6_17_patch1.tgz, CMSSW_10_6_19_patch3.tgz, CMSSW_9_4_14_UL_patch1.tgz
+transfer_output_remaps = "SMP-RunIISummer20UL17NanoAODv9-00124.root = $(proc)_$(Cluster)_$(Step).root"
+when_to_transfer_output = ON_EXIT
+Queue 1 proc in (Zll_dim6_ewk_m50_100)
