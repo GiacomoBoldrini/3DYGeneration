@@ -40,5 +40,5 @@ xrdcp -f root://eosuser.cern.ch//eos/user/g/gboldrin/Zee_dim6_LHE/mll_binned/gri
 
 python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL17wmLHEGEN-00065_1_cfg.py ${CHAIN_DIR}/step_0_cfg.py --events=20 --randomSeeds=${SEED}
 
-cmsRun -j FrameworkJobReport.xml ${CHAIN_DIR}/step_0_cfg.py
+cmsRun -e -j FrameworkJobReport.xml ${CHAIN_DIR}/step_0_cfg.py
 
