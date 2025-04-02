@@ -4,7 +4,7 @@
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
 # with command line options: Configuration/GenProduction/python/SMP-RunIISummer20UL17wmLHEGEN-00065-fragment.py --eventcontent RAWSIM,LHE --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN,LHE --conditions 106X_mc2017_realistic_v6 --beamspot Realistic25ns13TeVEarly2017Collision --step LHE,GEN --geometry DB:Extended --era Run2_2017 --python_filename SMP-RunIISummer20UL17wmLHEGEN-00065_1_cfg.py --fileout file:SMP-RunIISummer20UL17wmLHEGEN-00065.root --number 100 --number_out 100 --no_exec --mc
 import FWCore.ParameterSet.Config as cms
-
+import os
 from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
 
 process = cms.Process('GEN',Run2_2017)
@@ -24,7 +24,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    output = cms.untracked.int32(100)
+    output = cms.untracked.int32(10)
 )
 
 # Input source
@@ -190,7 +190,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring("/eos/user/g/gboldrin/Zee_dim6_LHE/mll_binned/gridpacks_v2_2025_02_07/zee_dim6_mll50-100_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz"),
+    args = cms.vstring(os.environ['PWD']+"/zee_dim6_mll50-100_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz"),
     generateConcurrently = cms.untracked.bool(True),
     nEvents = cms.untracked.uint32(10),
     numberOfParameters = cms.uint32(1),
