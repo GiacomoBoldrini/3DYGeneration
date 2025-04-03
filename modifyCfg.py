@@ -69,6 +69,7 @@ def SetRandomSeeds(process, newSeed):
 def SetEvents(process, nEvents):
     UpdateIfExists(process, 'externalLHEProducer', 'nEvents', nEvents)
     UpdateIfExists(process, 'maxEvents', 'input', nEvents)
+    UpdateIfExists(process, 'maxEvents', 'output', nEvents)
 
 def FindOutputModule(process):
     visitor = Visitor(cms.OutputModule)
@@ -142,7 +143,11 @@ def UpdateConfig(inputCfg, outputCfg, events=None, randomSeeds=None, inputFile=N
         Update(process, 'source', 'numberEventsInLuminosityBlock', cms.untracked.uint32(eventsPerLumi))
         Update(process, 'source', 'firstLuminosityBlock', cms.untracked.uint32(firstLumi))
 
+    print(process.maxEvents)
+    print(process.externalLHEProducer.nEvents)
+    print("strategy is {}".format(args.strategy))
     if args.strategy == 0:
+        print("--> Printing to {}".format(outputCfg))
         outFile = open(outputCfg, "w")
         outFile.write(process.dumpPython())
         outFile.close()
@@ -164,7 +169,7 @@ parser.add_argument('--events', type=int, default=None, help='Number of events t
 parser.add_argument('--randomSeeds', type=int, default=None, help='Set random seeds')
 parser.add_argument('--inputFile', type=str, default=None, help='Set input file')
 parser.add_argument('--outputFile', type=str, default=None, help='Set output file')
-parser.add_argument('--strategy', type=int, default=1, help='Patching strategy')
+parser.add_argument('--strategy', type=int, default=0, help='Patching strategy')
 parser.add_argument('--setLumiOffsets', type=int, default=None, help='Set this many events per lumiBlock')
 parser.add_argument('--outputModule', type=str, default=None, help='Output module to modify')
 parser.add_argument('--checkPremix', type=str, default=None, help='If not none, put the dataset or the year you want to check')
