@@ -13,12 +13,23 @@ config.section_('JobType')
 config.JobType.scriptExe = 'runners/run_chain_test.sh'
 config.JobType.psetName = 'do_nothing_cfg.py'
 config.JobType.pluginName = 'PrivateMC'
-config.JobType.outputFiles = ['NANOAODEFT17.root']
+config.JobType.outputFiles = ['SMP-RunIISummer20UL17NanoAODv9-00124.root']
 config.JobType.inputFiles = [
     'modifyCfg.py',
     'runners/run_chain_test.sh',
     'runners/chain_step_0_test.sh',
-    'SMP-RunIISummer20UL17wmLHEGEN-00065_1_cfg.py'
+    'runners/chain_step_1_test.sh',
+    'runners/chain_step_2_test.sh',
+    'runners/chain_step_3_test.sh',
+    'runners/chain_step_4_test.sh',
+    'runners/chain_step_5_test.sh',
+    'SMP-RunIISummer20UL17wmLHEGEN-00065_1_cfg.py',
+    'SMP-RunIISummer20UL17SIM-00030_1_cfg.py',
+    'SMP-RunIISummer20UL17DIGIPremix-00030_1_cfg.py',
+    'SMP-RunIISummer20UL17HLT-00029_1_cfg.py',
+    'SMP-RunIISummer20UL17RECO-00029_1_cfg.py',
+    'SMP-RunIISummer20UL17MiniAODv2-00180_1_cfg.py',
+    'SMP-RunIISummer20UL17NanoAODv9-00124_1_cfg.py'
     ]
 config.JobType.disableAutomaticOutputCollection = False
 config.JobType.allowUndistributedCMSSW = True
@@ -40,4 +51,5 @@ config.Data.outLFNDirBase = '/store/user/gboldrin/prova'
 config.section_('User')
 
 config.section_('Site')
+config.Site.whitelist = []
 config.Site.storageSite = 'T3_CH_CERNBOX'
