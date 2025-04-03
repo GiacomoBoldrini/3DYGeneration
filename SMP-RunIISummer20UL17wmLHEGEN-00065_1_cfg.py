@@ -29,6 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("EmptySource")
+process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(10)
 
 process.options = cms.untracked.PSet(
 
@@ -36,7 +37,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Configuration/GenProduction/python/SMP-RunIISummer20UL17wmLHEGEN-00065-fragment.py nevts:100'),
+    annotation = cms.untracked.string('Configuration/GenProduction/python/SMP-RunIISummer20UL17wmLHEGEN-00065-fragment.py nevts:10'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
