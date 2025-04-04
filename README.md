@@ -44,5 +44,13 @@ Beware that failures are expected due to Premix Neutrino guns often appear to be
 
 # Crab
 
-Crab is ongoing and failing at the moment. 
+Two config files are available for crab submission: 2017 and 2018. To launch crab generation simply run 
 
+```
+cmssw-cc7
+cmsrel CMSSW_10_6_19_patch3
+cd CMSSW_10_6_19_patch3/src; cmsenv; cd -
+crab submit crab_sub_2018.py
+```
+
+Or equivalently ```crab submit crab_sub_2017.py``` 
