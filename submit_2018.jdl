@@ -1,0 +1,14 @@
+Universe = vanilla 
+Executable = runners/2018/run_chain_test.sh
+arguments = $(Step)
+use_x509userproxy = true
+MY.WantOS = "el7"
+ +JobFlavour = "nextweek"
+should_transfer_files = YES
+Error = log/$(proc).err_$(Step)
+Output = log/$(proc).out_$(Step)
+Log = log/$(proc).log_$(Step)
+transfer_input_files = runners/2018/chain_step_0_test.sh, runners/2018/chain_step_1_test.sh, runners/2018/chain_step_2_test.sh, runners/2018/chain_step_3_test.sh, runners/2018/chain_step_4_test.sh, runners/2018/chain_step_5_test.sh, 2018/SMP-RunIISummer20UL18DIGIPremix-00035_1_cfg.py, 2018/SMP-RunIISummer20UL18HLT-00035_1_cfg.py, 2018/SMP-RunIISummer20UL18MiniAODv2-00051_1_cfg.py, 2018/SMP-RunIISummer20UL18NanoAODv9-00051_1_cfg.py, 2018/SMP-RunIISummer20UL18RECO-00035_1_cfg.py, 2018/SMP-RunIISummer20UL18SIM-00035_1_cfg.py, 2018/SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py, modifyCfg.py, modifyCfg.py       
+transfer_output_remaps = "SMP-RunIISummer20UL18NanoAODv9-00051.root = $(proc)_$(Cluster)_$(Step).root"
+when_to_transfer_output = ON_EXIT
+Queue 1 proc in (Zll_dim6_ewk_m50_100)

@@ -73,10 +73,8 @@ def SetEvents(process, nEvents):
 
 def FindOutputModule(process):
     visitor = Visitor(cms.OutputModule)
-    print(visitor)
     for schd in process.schedule:
         schd.visit(visitor)
-    print(visitor.results)
     if len(visitor.results) == 1:
         return visitor.results[0]
     else:
@@ -143,8 +141,6 @@ def UpdateConfig(inputCfg, outputCfg, events=None, randomSeeds=None, inputFile=N
         Update(process, 'source', 'numberEventsInLuminosityBlock', cms.untracked.uint32(eventsPerLumi))
         Update(process, 'source', 'firstLuminosityBlock', cms.untracked.uint32(firstLumi))
 
-    print(process.maxEvents)
-    print(process.externalLHEProducer.nEvents)
     print("strategy is {}".format(args.strategy))
     if args.strategy == 0:
         print("--> Printing to {}".format(outputCfg))
