@@ -7,7 +7,7 @@ SEED=$1
 RUN_DIR=${PWD}
 echo ">> Setting RUN_DIR to ${RUN_DIR}"
 
-CMSSW_RELEASE=CMSSW_10_6_20
+CMSSW_RELEASE=CMSSW_10_6_26
 SCRAM_ARCH=slc7_amd64_gcc700
 
 if [ "${CMSSW_RELEASE}" != "local" ]; then

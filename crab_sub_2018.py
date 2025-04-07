@@ -13,7 +13,7 @@ config.section_('JobType')
 config.JobType.scriptExe = 'runners/2018/run_chain_test.sh'
 config.JobType.psetName = 'do_nothing_cfg.py'
 config.JobType.pluginName = 'PrivateMC'
-config.JobType.outputFiles = ['SMP-RunIISummer20UL17NanoAODv9-00124.root']
+config.JobType.outputFiles = ['SMP-RunIISummer20UL18NanoAODv9-00051.root']
 config.JobType.inputFiles = [
     'modifyCfg.py',
     'get_disk_files.py',
