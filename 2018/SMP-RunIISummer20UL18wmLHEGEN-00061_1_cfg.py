@@ -8,6 +8,16 @@ import os
 
 from Configuration.Eras.Era_Run2_2018_cff import Run2_2018
 
+from FWCore.ParameterSet.VarParsing import VarParsing
+options = VarParsing ('analysis')
+options.register('jobNum', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"job id number used as run-id")
+options.register('nEvents', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of events to simulate")
+options.register('nThreads', 1, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of threads")
+options.register('inputGridpack', "", VarParsing.multiplicity.singleton,VarParsing.varType.string,"name of the input gridpack to be used in the generation")
+options.parseArguments()
+
+options.inputGridpack = options.inputGridpack.split("/")[-1]
+
 process = cms.Process('GEN',Run2_2018)
 
 # import of standard configurations
@@ -25,20 +35,21 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10),
-    output = cms.untracked.int32(10)
+    input = cms.untracked.int32(options.nEvents),
+    output = cms.untracked.int32(options.nEvents) 
 )
 
 # Input source
 process.source = cms.Source("EmptySource")
 
 process.options = cms.untracked.PSet(
-
+    numberOfStreams = cms.untracked.uint32(options.nThreads),
+    numberOfThreads = cms.untracked.uint32(options.nThreads)
 )
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Configuration/GenProduction/python/SMP-RunIISummer20UL18wmLHEGEN-00061-fragment.py nevts:100'),
+    annotation = cms.untracked.string('Configuration/GenProduction/python/SMP-RunIISummer20UL18wmLHEGEN-00061-fragment.py nevts:'+str(options.nEvents)),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -195,9 +206,9 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring(os.environ['PWD']+"/zee_dim6_mll50-100_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz"),
+    args = cms.vstring(os.environ['PWD']+"/" + options.inputGridpack),
     generateConcurrently = cms.untracked.bool(True),
-    nEvents = cms.untracked.uint32(10),
+    nEvents = cms.untracked.uint32(options.nEvents),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
     scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh')

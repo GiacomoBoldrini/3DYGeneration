@@ -3,8 +3,23 @@ set -e
 #set -x
 
 SEED=$1
+GRIDPACK=$2
+EVENTS=$3
+THREADS=$4
 
 RUN_DIR=${PWD}
+
+#== CMSSW: gridpack=zee_dim6_mll100-200
+#== CMSSW: 1
+#== CMSSW: events=1000
+
+echo "ARGUMENTS IN ORDER"
+echo ${SEED}
+echo ${GRIDPACK}
+echo ${EVENTS}
+echo ${THREADS}
+echo "------------"
+
 echo ">> Setting RUN_DIR to ${RUN_DIR}"
 
 CMSSW_RELEASE=CMSSW_10_6_19_patch3
@@ -27,12 +42,10 @@ if [ "${CMSSW_RELEASE}" != "local" ]; then
 fi
 
 
-xrdcp -f root://eosuser.cern.ch//eos/user/g/gboldrin/Zee_dim6_LHE/mll_binned/gridpacks_v2_2025_02_07/zee_dim6_mll50-100_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz .
 
-
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py ${RUN_DIR}/step_0_cfg.py --events=20 --randomSeeds=${SEED}
+python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py ${RUN_DIR}/step_0_cfg.py --randomSeeds=${SEED} --strategy=1
 
 echo "PRINTING PWD chain, where FrameworkJobReport.xml will be"
 pwd
 
-cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_0_cfg.py
+cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_0_cfg.py jobNum=$1 ${GRIDPACK} ${EVENTS} ${THREADS}
