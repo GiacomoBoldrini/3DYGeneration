@@ -3,7 +3,16 @@ from WMCore.Configuration import Configuration
 from multiprocessing import Process
 config = Configuration()
 
-mll_bin = 'zee_dim6_mll100-200'
+
+# zee_dim6_mll50-100 
+# zee_dim6_mll1000-1500 
+# zee_dim6_mll1500-inf 
+# zee_dim6_mll200-400 
+# zee_dim6_mll400-600 
+# zee_dim6_mll600-800 
+# zee_dim6_mll800-1000
+
+mll_bin = 'zee_dim6_mll800-1000'
 gp_path = '/eos/user/g/gboldrin/Zee_dim6_LHE/mll_binned/gridpacks_v2_2025_02_07/' + mll_bin + '_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz' 
 events_per_job = 1000
 PROD='ZDYEFT-nanoaod18_'+mll_bin
@@ -56,7 +65,7 @@ config.Data.outLFNDirBase = '/store/user/gboldrin/3DY_SMEFTsim_LO/'
 config.section_('User')
 
 config.section_('Site')
-config.Site.whitelist = ['T2_CH_CERN']
+#config.Site.whitelist = ['T2_CH_CERN']
 config.Site.storageSite = 'T2_FR_GRIF_LLR'
 
 

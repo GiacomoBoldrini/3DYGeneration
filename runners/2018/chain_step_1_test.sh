@@ -27,11 +27,11 @@ if [ "${CMSSW_RELEASE}" != "local" ]; then
 fi
 
 # SIM STEP 
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18SIM-00035_1_cfg.py ${RUN_DIR}/step_1_cfg.py --events=20 --randomSeeds=${SEED}
+python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18SIM-00035_1_cfg.py ${RUN_DIR}/step_1_cfg.py --randomSeeds=${SEED}
 
 cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_1_cfg.py
 
 # DIGI PREMIX
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18DIGIPremix-00035_1_cfg.py ${RUN_DIR}/step_1_bis_cfg.py --events=20 --randomSeeds=${SEED} --checkPremix 2018 --strategy 1
+python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18DIGIPremix-00035_1_cfg.py ${RUN_DIR}/step_1_bis_cfg.py --randomSeeds=${SEED} --checkPremix 2018 --strategy 1
 
 cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_1_bis_cfg.py
