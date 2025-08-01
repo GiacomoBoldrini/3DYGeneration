@@ -97,7 +97,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
                 Wp = cms.vint32(0, 24),
                 Z = cms.vint32(0, 23),
                 atau = cms.vint32(0, -15),
-                tau = cms.vint32(0, 15)
+                tau = cms.vint32(0, 15),
                 parameterSets = cms.vstring(
                     'Z', 
                     'Wp', 
@@ -189,16 +189,6 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'UncertaintyBands:overSampleISR = 10.0', 
             'UncertaintyBands:FSRpTmin2Fac = 20', 
             'UncertaintyBands:ISRpTmin2Fac = 1'
-        ),
-        pythia8PowhegEmissionVetoSettings = cms.vstring(
-            'POWHEG:veto = 1', 
-            'POWHEG:pTdef = 1', 
-            'POWHEG:emitted = 0', 
-            'POWHEG:pTemt = 0', 
-            'POWHEG:pThard = 0', 
-            'POWHEG:vetoCount = 100', 
-            'SpaceShower:pTmaxMatch = 2', 
-            'TimeShower:pTmaxMatch = 2'
         )
     ),
     comEnergy = cms.double(13000.0),
