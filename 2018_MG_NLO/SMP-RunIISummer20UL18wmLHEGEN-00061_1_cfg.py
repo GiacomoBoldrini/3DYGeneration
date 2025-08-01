@@ -90,46 +90,49 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '106X_upgrade2018_realistic_v4', '')
 
 process.generator = cms.EDFilter("Pythia8HadronizerFilter",
-    ExternalDecays = cms.PSet(
-        Photospp = cms.untracked.PSet(
-            forceBremForDecay = cms.PSet(
-                Wm = cms.vint32(0, -24),
-                Wp = cms.vint32(0, 24),
-                Z = cms.vint32(0, 23),
-                atau = cms.vint32(0, -15),
-                tau = cms.vint32(0, 15),
-                parameterSets = cms.vstring(
-                    'Z', 
-                    'Wp', 
-                    'Wm',
-                    'tau',
-                    'atau'
-                )
-            ),
-            parameterSets = cms.vstring(
-                'setExponentiation', 
-                'setInfraredCutOff', 
-                'setMeCorrectionWtForW', 
-                'setMeCorrectionWtForZ', 
-                'setMomentumConservationThreshold', 
-                'setPairEmission', 
-                'setPhotonEmission', 
-                'setStopAtCriticalError', 
-                'suppressAll', 
-                'forceBremForDecay'
-            ),
-            setExponentiation = cms.bool(True),
-            setInfraredCutOff = cms.double(0.00011),
-            setMeCorrectionWtForW = cms.bool(True),
-            setMeCorrectionWtForZ = cms.bool(True),
-            setMomentumConservationThreshold = cms.double(0.1),
-            setPairEmission = cms.bool(True),
-            setPhotonEmission = cms.bool(True),
-            setStopAtCriticalError = cms.bool(False),
-            suppressAll = cms.bool(True)
-        ),
-        parameterSets = cms.vstring('Photospp')
-    ),
+    # ---> Photos not needed for SMEFTatNLO because we generate p p > l+ l-, Photos adds extra QED to 
+    # p p > z while decaying. Otherwise we double count later with pythia radiation
+
+    # ExternalDecays = cms.PSet(
+    #     Photospp = cms.untracked.PSet(
+    #         forceBremForDecay = cms.PSet(
+    #             Wm = cms.vint32(0, -24),
+    #             Wp = cms.vint32(0, 24),
+    #             Z = cms.vint32(0, 23),
+    #             atau = cms.vint32(0, -15),
+    #             tau = cms.vint32(0, 15),
+    #             parameterSets = cms.vstring(
+    #                 'Z', 
+    #                 'Wp', 
+    #                 'Wm',
+    #                 'tau',
+    #                 'atau'
+    #             )
+    #         ),
+    #         parameterSets = cms.vstring(
+    #             'setExponentiation', 
+    #             'setInfraredCutOff', 
+    #             'setMeCorrectionWtForW', 
+    #             'setMeCorrectionWtForZ', 
+    #             'setMomentumConservationThreshold', 
+    #             'setPairEmission', 
+    #             'setPhotonEmission', 
+    #             'setStopAtCriticalError', 
+    #             'suppressAll', 
+    #             'forceBremForDecay'
+    #         ),
+    #         setExponentiation = cms.bool(True),
+    #         setInfraredCutOff = cms.double(0.00011),
+    #         setMeCorrectionWtForW = cms.bool(True),
+    #         setMeCorrectionWtForZ = cms.bool(True),
+    #         setMomentumConservationThreshold = cms.double(0.1),
+    #         setPairEmission = cms.bool(True),
+    #         setPhotonEmission = cms.bool(True),
+    #         setStopAtCriticalError = cms.bool(False),
+    #         suppressAll = cms.bool(True)
+    #     ),
+    #     parameterSets = cms.vstring('Photospp')
+    # ),
     PythiaParameters = cms.PSet(
         parameterSets = cms.vstring(
             'pythia8CommonSettings', 
@@ -141,7 +144,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'SpaceShower:pTmaxMatch = 1', 
             'TimeShower:pTmaxMatch = 1', 
             'ParticleDecays:allowPhotonRadiation = on', 
-            'TimeShower:QEDshowerByL = off', 
+            'TimeShower:QEDshowerByL = on', 
             'BeamRemnants:hardKTOnlyLHE = on', 
             'BeamRemnants:primordialKThard = 2.225001', 
             'SpaceShower:dipoleRecoil = 1'
