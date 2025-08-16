@@ -12,11 +12,7 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing ('analysis')
 options.register('jobNum', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"job id number used as run-id")
 options.register('nEvents', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of events to simulate")
-options.register('nThreads', 1, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of threads")
-options.register('inputGridpack', "", VarParsing.multiplicity.singleton,VarParsing.varType.string,"name of the input gridpack to be used in the generation")
 options.parseArguments()
-
-options.inputGridpack = options.inputGridpack.split("/")[-1]
 
 process = cms.Process('GEN',Run2_2018)
 
@@ -43,8 +39,6 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("EmptySource")
 
 process.options = cms.untracked.PSet(
-    numberOfStreams = cms.untracked.uint32(options.nThreads),
-    numberOfThreads = cms.untracked.uint32(options.nThreads)
 )
 
 # Production Info
@@ -97,7 +91,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
                 Wp = cms.vint32(0, 24),
                 Z = cms.vint32(0, 23),
                 atau = cms.vint32(0, -15),
-                tau = cms.vint32(0, 15)
+                tau = cms.vint32(0, 15),
                 parameterSets = cms.vstring(
                     'Z', 
                     'Wp', 
@@ -138,12 +132,15 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'processParameters'
         ),
         processParameters = cms.vstring(
-            'SpaceShower:pTmaxMatch = 1', 
-            'TimeShower:pTmaxMatch = 1', 
-            'ParticleDecays:allowPhotonRadiation = on', 
-            'TimeShower:QEDshowerByL = off', 
-            'BeamRemnants:hardKTOnlyLHE = on', 
-            'BeamRemnants:primordialKThard = 2.225001', 
+            'JetMatching:setMad = off',
+            'JetMatching:merge = off',
+            'JetMatching:doFxFx = off',
+            'TimeShower:QEDshowerByL = off',
+            'TimeShower:QEDshowerByGamma = on',
+            'ParticleDecays:allowPhotonRadiation = on',
+            'TimeShower:QEDshowerByL = off',
+            'BeamRemnants:hardKTOnlyLHE = on',
+            'BeamRemnants:primordialKThard = 2.225001',
             'SpaceShower:dipoleRecoil = 1'
         ),
         pythia8CP5Settings = cms.vstring(
@@ -189,16 +186,6 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'UncertaintyBands:overSampleISR = 10.0', 
             'UncertaintyBands:FSRpTmin2Fac = 20', 
             'UncertaintyBands:ISRpTmin2Fac = 1'
-        ),
-        pythia8PowhegEmissionVetoSettings = cms.vstring(
-            'POWHEG:veto = 1', 
-            'POWHEG:pTdef = 1', 
-            'POWHEG:emitted = 0', 
-            'POWHEG:pTemt = 0', 
-            'POWHEG:pThard = 0', 
-            'POWHEG:vetoCount = 100', 
-            'SpaceShower:pTmaxMatch = 2', 
-            'TimeShower:pTmaxMatch = 2'
         )
     ),
     comEnergy = cms.double(13000.0),
@@ -210,7 +197,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring(os.environ['PWD']+"/" + options.inputGridpack),
+    args = cms.vstring("/eos/user/g/gboldrin/Zee_dim6_LHE/NLO/gridpacks_EFT_mll_binned/DYToLL_SMEFTatNLO_5f_mll50_100_FXFX_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz"),
     generateConcurrently = cms.untracked.bool(True),
     nEvents = cms.untracked.uint32(options.nEvents),
     numberOfParameters = cms.uint32(1),

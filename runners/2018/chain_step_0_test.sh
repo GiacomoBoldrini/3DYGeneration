@@ -3,11 +3,12 @@ set -e
 #set -x
 
 SEED=$1
-GRIDPACK=$2
-EVENTS=$3
-THREADS=$4
+EVENTS=$2
+GRIDPACK=$3
 
 RUN_DIR=${PWD}
+
+
 
 #== CMSSW: gridpack=zee_dim6_mll100-200
 #== CMSSW: 1
@@ -15,10 +16,12 @@ RUN_DIR=${PWD}
 
 echo "ARGUMENTS IN ORDER"
 echo ${SEED}
-echo ${GRIDPACK}
 echo ${EVENTS}
-echo ${THREADS}
 echo "------------"
+
+mv SMP-RunIISummer20UL18wmLHEGEN-00061*.py SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py 
+
+ls 
 
 echo ">> Setting RUN_DIR to ${RUN_DIR}"
 
@@ -43,9 +46,9 @@ fi
 
 
 
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py ${RUN_DIR}/step_0_cfg.py --randomSeeds=${SEED} --strategy=1
+python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py ${RUN_DIR}/step_0_cfg.py --randomSeeds=${SEED} --events=${EVENTS} --gridpack="${RUN_DIR}/${GRIDPACK}" --strategy=0 
 
 echo "PRINTING PWD chain, where FrameworkJobReport.xml will be"
 pwd
 
-cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_0_cfg.py jobNum=$1 ${GRIDPACK} ${EVENTS} ${THREADS}
+cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_0_cfg.py jobNum=$1 ${EVENTS}

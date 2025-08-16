@@ -12,11 +12,7 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing ('analysis')
 options.register('jobNum', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"job id number used as run-id")
 options.register('nEvents', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of events to simulate")
-options.register('nThreads', 1, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of threads")
-options.register('inputGridpack', "", VarParsing.multiplicity.singleton,VarParsing.varType.string,"name of the input gridpack to be used in the generation")
 options.parseArguments()
-
-options.inputGridpack = options.inputGridpack.split("/")[-1]
 
 process = cms.Process('GEN',Run2_2018)
 
@@ -43,8 +39,6 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("EmptySource")
 
 process.options = cms.untracked.PSet(
-    numberOfStreams = cms.untracked.uint32(options.nThreads),
-    numberOfThreads = cms.untracked.uint32(options.nThreads)
 )
 
 # Production Info
@@ -96,10 +90,14 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
                 Wm = cms.vint32(0, -24),
                 Wp = cms.vint32(0, 24),
                 Z = cms.vint32(0, 23),
+                atau = cms.vint32(0, -15),
+                tau = cms.vint32(0, 15),
                 parameterSets = cms.vstring(
                     'Z', 
                     'Wp', 
-                    'Wm'
+                    'Wm',
+                    'tau',
+                    'atau'
                 )
             ),
             parameterSets = cms.vstring(
@@ -140,17 +138,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'TimeShower:QEDshowerByL = off', 
             'BeamRemnants:hardKTOnlyLHE = on', 
             'BeamRemnants:primordialKThard = 2.225001', 
-            'SpaceShower:dipoleRecoil = 1',
-            'JetMatching:setMad = on',
-            'JetMatching:scheme = 1',
-            'JetMatching:merge = on',
-            'JetMatching:jetAlgorithm = 2',
-            'JetMatching:etaJetMax = 5.',
-            'JetMatching:coneRadius = 1.0',
-            'JetMatching:slowJetPower = 1',
-            'JetMatching:qCut = 20.',  # <-- Set this to xqcut + 10, for example
-            'JetMatching:nQmatch = 5',
-            'JetMatching:nJetMax = 2'  # should match the highest jet multiplicity in MadGraph
+            'SpaceShower:dipoleRecoil = 1'
         ),
         pythia8CP5Settings = cms.vstring(
             'Tune:pp 14', 
@@ -216,7 +204,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring(os.environ['PWD']+"/" + options.inputGridpack),
+    args = cms.vstring("/eos/user/g/gboldrin/Zee_dim6_LHE/NLO/gridpacks_EFT_mll_binned/DYToLL_SMEFTatNLO_5f_mll800_1000_FXFX_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz"),
     generateConcurrently = cms.untracked.bool(True),
     nEvents = cms.untracked.uint32(options.nEvents),
     numberOfParameters = cms.uint32(1),

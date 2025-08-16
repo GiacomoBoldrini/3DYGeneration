@@ -3,6 +3,7 @@ set -e
 #set -x
 
 SEED=$1
+EVENTS=$2
 
 RUN_DIR=${PWD}
 echo ">> Setting RUN_DIR to ${RUN_DIR}"
@@ -26,7 +27,6 @@ if [ "${CMSSW_RELEASE}" != "local" ]; then
 
 fi
 
-#python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18HLT-00035_1_cfg.py ${RUN_DIR}/step_2_cfg.py --randomSeeds=${SEED}
-mv ${RUN_DIR}/SMP-RunIISummer20UL18HLT-00035_1_cfg.py ${RUN_DIR}/step_2_cfg.py
+python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18HLT-00035_1_cfg.py ${RUN_DIR}/step_2_cfg.py --randomSeeds=${SEED} --events=${EVENTS} --strategy=1
 
 cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_2_cfg.py

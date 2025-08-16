@@ -12,11 +12,7 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing ('analysis')
 options.register('jobNum', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"job id number used as run-id")
 options.register('nEvents', 0, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of events to simulate")
-options.register('nThreads', 1, VarParsing.multiplicity.singleton,VarParsing.varType.int,"number of threads")
-options.register('inputGridpack', "", VarParsing.multiplicity.singleton,VarParsing.varType.string,"name of the input gridpack to be used in the generation")
 options.parseArguments()
-
-options.inputGridpack = options.inputGridpack.split("/")[-1]
 
 process = cms.Process('GEN',Run2_2018)
 
@@ -43,8 +39,6 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("EmptySource")
 
 process.options = cms.untracked.PSet(
-    numberOfStreams = cms.untracked.uint32(options.nThreads),
-    numberOfThreads = cms.untracked.uint32(options.nThreads)
 )
 
 # Production Info
@@ -90,49 +84,46 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, '106X_upgrade2018_realistic_v4', '')
 
 process.generator = cms.EDFilter("Pythia8HadronizerFilter",
-    # ---> Photos not needed for SMEFTatNLO because we generate p p > l+ l-, Photos adds extra QED to 
-    # p p > z while decaying. Otherwise we double count later with pythia radiation
-
-    # ExternalDecays = cms.PSet(
-    #     Photospp = cms.untracked.PSet(
-    #         forceBremForDecay = cms.PSet(
-    #             Wm = cms.vint32(0, -24),
-    #             Wp = cms.vint32(0, 24),
-    #             Z = cms.vint32(0, 23),
-    #             atau = cms.vint32(0, -15),
-    #             tau = cms.vint32(0, 15),
-    #             parameterSets = cms.vstring(
-    #                 'Z', 
-    #                 'Wp', 
-    #                 'Wm',
-    #                 'tau',
-    #                 'atau'
-    #             )
-    #         ),
-    #         parameterSets = cms.vstring(
-    #             'setExponentiation', 
-    #             'setInfraredCutOff', 
-    #             'setMeCorrectionWtForW', 
-    #             'setMeCorrectionWtForZ', 
-    #             'setMomentumConservationThreshold', 
-    #             'setPairEmission', 
-    #             'setPhotonEmission', 
-    #             'setStopAtCriticalError', 
-    #             'suppressAll', 
-    #             'forceBremForDecay'
-    #         ),
-    #         setExponentiation = cms.bool(True),
-    #         setInfraredCutOff = cms.double(0.00011),
-    #         setMeCorrectionWtForW = cms.bool(True),
-    #         setMeCorrectionWtForZ = cms.bool(True),
-    #         setMomentumConservationThreshold = cms.double(0.1),
-    #         setPairEmission = cms.bool(True),
-    #         setPhotonEmission = cms.bool(True),
-    #         setStopAtCriticalError = cms.bool(False),
-    #         suppressAll = cms.bool(True)
-    #     ),
-    #     parameterSets = cms.vstring('Photospp')
-    # ),
+    ExternalDecays = cms.PSet(
+        Photospp = cms.untracked.PSet(
+            forceBremForDecay = cms.PSet(
+                Wm = cms.vint32(0, -24),
+                Wp = cms.vint32(0, 24),
+                Z = cms.vint32(0, 23),
+                atau = cms.vint32(0, -15),
+                tau = cms.vint32(0, 15),
+                parameterSets = cms.vstring(
+                    'Z', 
+                    'Wp', 
+                    'Wm',
+                    'tau',
+                    'atau'
+                )
+            ),
+            parameterSets = cms.vstring(
+                'setExponentiation', 
+                'setInfraredCutOff', 
+                'setMeCorrectionWtForW', 
+                'setMeCorrectionWtForZ', 
+                'setMomentumConservationThreshold', 
+                'setPairEmission', 
+                'setPhotonEmission', 
+                'setStopAtCriticalError', 
+                'suppressAll', 
+                'forceBremForDecay'
+            ),
+            setExponentiation = cms.bool(True),
+            setInfraredCutOff = cms.double(0.00011),
+            setMeCorrectionWtForW = cms.bool(True),
+            setMeCorrectionWtForZ = cms.bool(True),
+            setMomentumConservationThreshold = cms.double(0.1),
+            setPairEmission = cms.bool(True),
+            setPhotonEmission = cms.bool(True),
+            setStopAtCriticalError = cms.bool(False),
+            suppressAll = cms.bool(True)
+        ),
+        parameterSets = cms.vstring('Photospp')
+    ),
     PythiaParameters = cms.PSet(
         parameterSets = cms.vstring(
             'pythia8CommonSettings', 
@@ -141,12 +132,15 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
             'processParameters'
         ),
         processParameters = cms.vstring(
-            'SpaceShower:pTmaxMatch = 1', 
-            'TimeShower:pTmaxMatch = 1', 
-            'ParticleDecays:allowPhotonRadiation = on', 
-            'TimeShower:QEDshowerByL = on', 
-            'BeamRemnants:hardKTOnlyLHE = on', 
-            'BeamRemnants:primordialKThard = 2.225001', 
+            'JetMatching:setMad = off',
+            'JetMatching:merge = off',
+            'JetMatching:doFxFx = off',
+            'TimeShower:QEDshowerByL = off',
+            'TimeShower:QEDshowerByGamma = on',
+            'ParticleDecays:allowPhotonRadiation = on',
+            'TimeShower:QEDshowerByL = off',
+            'BeamRemnants:hardKTOnlyLHE = on',
+            'BeamRemnants:primordialKThard = 2.225001',
             'SpaceShower:dipoleRecoil = 1'
         ),
         pythia8CP5Settings = cms.vstring(
@@ -203,7 +197,7 @@ process.generator = cms.EDFilter("Pythia8HadronizerFilter",
 
 
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring(os.environ['PWD']+"/" + options.inputGridpack),
+    args = cms.vstring("/eos/user/g/gboldrin/Zee_dim6_LHE/mll_binned/gridpacks_v3_2025_06_24/zee_dim6_mll{}_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz"),
     generateConcurrently = cms.untracked.bool(True),
     nEvents = cms.untracked.uint32(options.nEvents),
     numberOfParameters = cms.uint32(1),

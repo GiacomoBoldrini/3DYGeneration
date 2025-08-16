@@ -46,8 +46,11 @@ def UpdateIfExists(process, modName, attrName, newVal, prefix='process.'):
         mod = getattr(process, modName)
         if hasattr(mod, attrName):
             attr = getattr(mod, attrName)
+            print(attr)
             prev = '%s' % attr
+            print(prev)
             newArg = type(attr)(newVal)
+            print(newArg)
             attr.setValue(newVal)
             print('Updating %s.%s from %s to %s' % (modName, attrName, prev, getattr(mod, attrName)))
             edits.append('%s%s.%s = %s' % (prefix, modName, attrName, getattr(mod, attrName)))
@@ -118,7 +121,7 @@ def checkList(data):
         return []
 
 
-def UpdateConfig(inputCfg, outputCfg, events=None, randomSeeds=None, inputFile=None, outputFile=None, outputModule=None, setLumiOffsets=None):
+def UpdateConfig(inputCfg, outputCfg, events=None, randomSeeds=None, inputFile=None, outputFile=None, gridpack=None, outputModule=None, setLumiOffsets=None):
     # Have to reset sys.argv here in case the inputCfg will do its own VarParsing
     # => this is a bit of a hack!
     sys.argv = [inputCfg]
@@ -131,6 +134,8 @@ def UpdateConfig(inputCfg, outputCfg, events=None, randomSeeds=None, inputFile=N
         SetInputFileName(process, str(inputFile))
     if outputFile is not None:
         SetOutputFileName(process, str(outputFile), namedModule=outputModule)
+    if gridpack is not None:
+        UpdateIfExists(process, 'externalLHEProducer', 'args', [str(gridpack)], prefix='process.externalLHEProducer.')
     if args.checkPremix is not None:
         availableList = checkList(args.checkPremix)
         SetPremixFiles(process, availableList)
@@ -165,6 +170,7 @@ parser.add_argument('--events', type=int, default=None, help='Number of events t
 parser.add_argument('--randomSeeds', type=int, default=None, help='Set random seeds')
 parser.add_argument('--inputFile', type=str, default=None, help='Set input file')
 parser.add_argument('--outputFile', type=str, default=None, help='Set output file')
+parser.add_argument('--gridpack', type=str, default=None, help='Set gridpack to process')
 parser.add_argument('--strategy', type=int, default=0, help='Patching strategy')
 parser.add_argument('--setLumiOffsets', type=int, default=None, help='Set this many events per lumiBlock')
 parser.add_argument('--outputModule', type=str, default=None, help='Output module to modify')
@@ -174,6 +180,6 @@ parser.add_argument('--checkPremix', type=str, default=None, help='If not none, 
 args = parser.parse_args()
 
 
-UpdateConfig(args.io[0], args.io[1], events=args.events, randomSeeds=args.randomSeeds, inputFile=args.inputFile, outputFile=args.outputFile, outputModule=args.outputModule, setLumiOffsets=args.setLumiOffsets)
+UpdateConfig(args.io[0], args.io[1], events=args.events, randomSeeds=args.randomSeeds, inputFile=args.inputFile, outputFile=args.outputFile, gridpack=args.gridpack, outputModule=args.outputModule, setLumiOffsets=args.setLumiOffsets)
 
 

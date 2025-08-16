@@ -3,6 +3,7 @@ set -e
 #set -x
 
 SEED=$1
+EVENTS=$2
 
 RUN_DIR=${PWD}
 echo ">> Setting RUN_DIR to ${RUN_DIR}"
@@ -66,6 +67,6 @@ fi
 
 echo ${PWD} 
 
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18NanoAODv9-00051_1_cfg.py ${RUN_DIR}/step_5_cfg.py --randomSeeds=${SEED}
+python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/SMP-RunIISummer20UL18NanoAODv9-00051_1_cfg.py ${RUN_DIR}/step_5_cfg.py --randomSeeds=${SEED} --events=${EVENTS}
 
 cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_5_cfg.py
