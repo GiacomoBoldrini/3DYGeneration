@@ -4,8 +4,8 @@ from multiprocessing import Process
 config = Configuration()
 
 
-# mll_bin = 'mll_50_100'
-mll_bin = 'mll_100_200'
+mll_bin = 'mll_50_100'
+# mll_bin = 'mll_100_200'
 # mll_bin = 'mll_200_400'
 # mll_bin = 'mll_400_600'
 # mll_bin = 'mll_600_800'
@@ -16,7 +16,7 @@ mll_bin = 'mll_100_200'
 gp_path = "/eos/user/g/gboldrin/Zee_dim6_LHE/NLO/gridpacks_EFT_mll_binned/DYToLL_SMEFTatNLO_5f_mll{}_FXFX_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz".format(mll_bin.split("mll_")[1])
 
 
-events_per_job = 300
+events_per_job = 500
 PROD='ZDYEFT-nanoaod18_SMEFTatNLO_' + mll_bin +"_Photos"
 
 config.section_('General')
@@ -39,7 +39,7 @@ config.JobType.inputFiles = [
     'runners/2018/chain_step_3_test.sh',
     'runners/2018/chain_step_4_test.sh',
     'runners/2018/chain_step_5_test.sh', 
-    '2018_NLO/SMP-RunIISummer20UL18wmLHEGEN-00061_1_{}_cfg.py'.format(mll_bin),
+    '2018_NLO/SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py',
     '2018_NLO/SMP-RunIISummer20UL18SIM-00035_1_cfg.py',
     '2018_NLO/SMP-RunIISummer20UL18DIGIPremix-00035_1_cfg.py',
     '2018_NLO/SMP-RunIISummer20UL18HLT-00035_1_cfg.py',
@@ -54,7 +54,7 @@ config.JobType.numCores = 1
 
 config.section_('Data')
 config.Data.unitsPerJob = events_per_job
-NJOBS = 500
+NJOBS = 1000
 config.Data.totalUnits = config.Data.unitsPerJob * NJOBS
 config.Data.splitting = 'EventBased'
 config.Data.publication = False
