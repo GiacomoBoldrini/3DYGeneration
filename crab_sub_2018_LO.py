@@ -4,14 +4,6 @@ from multiprocessing import Process
 config = Configuration()
 
 
-# mll_bin = 'mll_50_100'
-# mll_bin = 'mll_100_200'
-# mll_bin = 'mll_200_400'
-# mll_bin = 'mll_400_600'
-# mll_bin = 'mll_600_800'
-# mll_bin = 'mll_800_1000'
-# mll_bin = 'mll_1000_1500'
-mll_bin = 'mll_1500_inf'
 
 gp_path = "/eos/user/g/gboldrin/Zee_dim6_LHE/mll_binned/gridpacks_v3_2025_06_24/zee_dim6_mll{}_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz".format(mll_bin.split("mll_")[1])
 

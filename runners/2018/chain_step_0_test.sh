@@ -19,7 +19,7 @@ echo ${SEED}
 echo ${EVENTS}
 echo "------------"
 
-mv SMP-RunIISummer20UL18wmLHEGEN-00061*.py SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py 
+# mv SMP-RunIISummer20UL18wmLHEGEN-00061*.py SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py 
 
 ls 
 
