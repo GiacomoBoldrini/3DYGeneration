@@ -27,6 +27,6 @@ if [ "${CMSSW_RELEASE}" != "local" ]; then
 
 fi
 
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/GEN-Run3Summer23MiniAODv4-00237_1_cfg.py ${RUN_DIR}/step_2_cfg.py --randomSeeds=${SEED} --events=${EVENTS} --strategy=1
+python3 ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/GEN-Run3Summer23MiniAODv4-00237_1_cfg.py ${RUN_DIR}/step_2_cfg.py --randomSeeds=${SEED} --events=${EVENTS} --strategy=1
 
 cmsRun -e -j FrameworkJobReport.xml ${RUN_DIR}/step_2_cfg.py

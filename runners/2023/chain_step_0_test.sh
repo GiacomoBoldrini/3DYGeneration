@@ -17,6 +17,7 @@ RUN_DIR=${PWD}
 echo "ARGUMENTS IN ORDER"
 echo ${SEED}
 echo ${EVENTS}
+echo ${GRIDPACK}
 echo "------------"
 
 # mv SMP-RunIISummer20UL18wmLHEGEN-00061*.py SMP-RunIISummer20UL18wmLHEGEN-00061_1_cfg.py 
@@ -46,7 +47,7 @@ fi
 
 
 
-python ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/GEN-Run3Summer23wmLHEGS-00327_1_cfg.py ${RUN_DIR}/step_0_cfg.py --randomSeeds=${SEED} --events=${EVENTS} --strategy=0 
+python3 ${RUN_DIR}/modifyCfg.py ${RUN_DIR}/GEN-Run3Summer23wmLHEGS-00327_1_cfg.py ${RUN_DIR}/step_0_cfg.py --randomSeeds=${SEED} --events=${EVENTS} --gridpack="${RUN_DIR}/${GRIDPACK}" --strategy=0 
 
 echo "PRINTING PWD chain, where FrameworkJobReport.xml will be"
 pwd
